@@ -3,7 +3,52 @@
 {% load humanize %}
 
 {% block content %}
+<script>
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
+function buy(buyBoth){
+    var products_id = buyBoth ? "{{ listing.id }},{{ suggested_product.id }}" : "{{ listing.id }}";
+    var csrf_token = getCookie("csrftoken");
+    var data =JSON.stringify({"products": products_id});
+    var settings = {
+      "async": true,
+      "url": "http://127.0.0.1:8000/listings/purchase",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json",
+        "cache-control": "no-cache",
+        "X-CSRFToken": csrf_token
+      },
+      "processData": false,
+      "data": data
+    }
+    console.log(data);
+    $.ajax(settings).done(function (response) {
+      console.log(response.status_code);
+      $('#inquiryModal').modal('hide');
+      alert(response.message);
+    });
+    return false;
+}
+
+function get_suggested_products(product_id) {
+}
+
+</script>
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
       <div class="row text-center">
@@ -38,9 +83,9 @@
     <div class="container">
       <a href="{% url 'listings' %}" class="btn btn-light mb-4">Back To Listings</a>
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-7">
           <!-- Home Main Image -->
-          <img src="{{ listing.photo_main.url }}" alt="" class="img-main img-fluid mb-3">
+          <img src="{{ listing.photo_main.url }}" alt="" class="img-main img-fluid mb-3"><hr>
           <!-- Thumbnails -->
           <div class="row mb-5 thumbs">
               {% if listing.photo_1 %}
@@ -86,6 +131,7 @@
             </div>
               {% endif %}
           </div>
+          <hr>
           <!-- Fields -->
           <div class="row mb-5 fields">
             <div class="col-md-6">
@@ -149,6 +195,8 @@
             <br><div class="col-md-4"><input type="submit" class="btn btn-block btn-secondary"></div>
           </div>
         </div>
+        <div class="col-md-1"></div>
+
         <div class="col-md-3">
           <div class="card mb-3">
             <img class="card-img-top" src="{{ listing.seller.photo.url }}" alt="">
@@ -168,77 +216,30 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title" id="inquiryModalLabel">This Products Are rapidly bought together!</h6>
+          <h6 class="modal-title" id="inquiryModalLabel">These Products Are rapidly bought together!</h6>
           <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div>
-            <img src="{{ suggested_product.photo_main.url }}" alt="smx" >
-
+          <div class="row">
+            <div class="col-md-4">
+              <b>{{ suggested_product.name }}</b>
+            </div>
+            <div  class="col-md-3">
+              <b>Price:{{ suggested_product.price }}</b>
+            </div>
+            <div class="col-md-5">
+              <img src="{{ suggested_product.photo_main.url }}" alt="smx" >
+            </div>
           </div>
             <hr>
-          <form action=" " >
-            <input type="button" value="Buy Both" class="btn btn-block btn-secondary">
-          </form>
+            <input type="button" value="Buy Both at {{ listing.price|add:suggested_product.price }}" class="btn btn-block btn-secondary" onclick="buy(true)">
           <hr>
-          <form>
-            <input type="button" value="Buy" class="btn btn-block btn-secondary" onclick="my_function()">
-            <script>
-              function getCookie(name) {
-                  var cookieValue = null;
-                  if (document.cookie && document.cookie != '') {
-                      var cookies = document.cookie.split(';');
-                      for (var i = 0; i < cookies.length; i++) {
-                          var cookie = jQuery.trim(cookies[i]);
-                          // Does this cookie string begin with the name we want?
-                          if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                              break;
-                          }
-                      }
-                  }
-                  return cookieValue;
-              }
-
-              function my_function(){
-                  console.log("I am here1");
-                  console
-                  var products_id = "{{ listing_id }}";
-                  var csrf_token = getCookie("csrftoken");
-                  var data =JSON.stringify({"products": products_id});
-                  var settings = {
-                    "async": true,
-                    "url": "http://127.0.0.1:8000/listings/purchase",
-                    "method": "POST",
-                    "headers": {
-                      "Content-Type": "application/json",
-                      "cache-control": "no-cache",
-                      "X-CSRFToken": csrf_token
-                    },
-                    "processData": false,
-                    "data": data
-                  }
-                  console.log(data);
-                  console.log("I am here2");
-                  $.ajax(settings).done(function (response) {
-                    console.log(response.status_code);
-                    $('#inquiryModal').modal('hide');
-                    alert(response.message);
-
-                  });
-                  return false;
-              }
-          </script>
-          </form>
+            <input type="button" value="Buy at {{ listing.price }}" class="btn btn-block btn-secondary" onclick="buy()">
         </div>
       </div>
     </div>
   </div>
 
 {% endblock %}
-
-
-#listing_id
-#suggestion_id

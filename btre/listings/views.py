@@ -8,7 +8,10 @@ from django.contrib.auth.models import User
 import json
 from rest_framework.renderers import JSONRenderer
 from django.views.decorators.csrf import csrf_exempt
-
+from mlxtend.frequent_patterns import apriori
+import numpy as np
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
 
 
 
@@ -42,11 +45,7 @@ def listing(request, listing_id):
     for i in num:
         if product in i:
             sub_dataset.append(i)
-    # pip install mlxtend
-    # pip install pandas
 
-    import pandas as pd
-    from mlxtend.preprocessing import TransactionEncoder
 
     te = TransactionEncoder()
     te_ary = te.fit(sub_dataset).transform(sub_dataset)
@@ -56,8 +55,6 @@ def listing(request, listing_id):
     df1[product] = False
 
     list1 = []
-    from mlxtend.frequent_patterns import apriori
-    import numpy as np
 
     df2 = apriori(df1, min_support=0.6, use_colnames=True)
     df2 = df2.sort_values(by='support', ascending=False)
@@ -68,7 +65,6 @@ def listing(request, listing_id):
     suggested_product = Product.objects.get(id=product_id)
     context = {
         'listing': listing,
-        'listing_id': listing_id,
         'suggested_product': suggested_product
     }
     print(context)
@@ -118,9 +114,15 @@ class PurchaseView(APIView):
 
 
 
-def example(request):
-    return render(request, 'try/try.html')
 
 
+class SuggestedProductView(APIView):
 
+    renderer_classes = (JSONRenderer,)
 
+    def get(self, request):
+        product_id = request.data.get("product_id")
+        # check product exists or not
+        # if not then give error
+        # run algo and return list of suggested products as json
+        return Response(data={'suggested_product': {'id': id, 'name': name, 'price': price}}, status=status.HTTP_201_CREATED)

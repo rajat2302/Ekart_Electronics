@@ -6,7 +6,7 @@ urlpatterns = [
     path('<int:listing_id>', views.listing, name='listing'),
     path('search', views.search, name='search'),
     path('purchase', views.PurchaseView.as_view(), name='Purchase'),
-    path('Example', views.example, name='Example'),
+    path('suggested_products', views.PurchaseView.as_view(), name='Purchase'),
 
 
 ]
