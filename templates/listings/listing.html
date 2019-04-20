@@ -26,7 +26,7 @@ function buy(buyBoth){
     var data =JSON.stringify({"products": products_id});
     var settings = {
       "async": true,
-      "url": "http://127.0.0.1:8000/listings/purchase",
+      "url": "/listings/purchase",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json",
