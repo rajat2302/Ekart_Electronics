@@ -1,0 +1,1538 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: listings_listing; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.listings_listing (
+    id integer NOT NULL,
+    title character varying(200) NOT NULL,
+    address character varying(200) NOT NULL,
+    city character varying(100) NOT NULL,
+    state character varying(100) NOT NULL,
+    zipcode character varying(20) NOT NULL,
+    description text NOT NULL,
+    price integer NOT NULL,
+    bedrooms integer NOT NULL,
+    bathroom numeric(2,1) NOT NULL,
+    garage integer NOT NULL,
+    sqft integer NOT NULL,
+    lot_size numeric(5,1) NOT NULL,
+    photo_main character varying(100) NOT NULL,
+    photo_1 character varying(100) NOT NULL,
+    photo_2 character varying(100) NOT NULL,
+    photo_3 character varying(100) NOT NULL,
+    photo_4 character varying(100) NOT NULL,
+    photo_5 character varying(100) NOT NULL,
+    photo_6 character varying(100) NOT NULL,
+    is_published boolean NOT NULL,
+    list_date date NOT NULL,
+    realtor_id integer NOT NULL
+);
+
+
+ALTER TABLE public.listings_listing OWNER TO postgres;
+
+--
+-- Name: listings_listing_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.listings_listing_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.listings_listing_id_seq OWNER TO postgres;
+
+--
+-- Name: listings_listing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.listings_listing_id_seq OWNED BY public.listings_listing.id;
+
+
+--
+-- Name: listings_product; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.listings_product (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    brand character varying(200) NOT NULL,
+    type character varying(200) NOT NULL,
+    sub_type character varying(100) NOT NULL,
+    description text NOT NULL,
+    price integer NOT NULL,
+    ram integer NOT NULL,
+    processor character varying(100) NOT NULL,
+    storage numeric(6,1) NOT NULL,
+    processor_spped numeric(6,1) NOT NULL,
+    display_size numeric(5,2) NOT NULL,
+    weight numeric(8,1) NOT NULL,
+    photo_main character varying(100) NOT NULL,
+    photo_1 character varying(100) NOT NULL,
+    photo_2 character varying(100) NOT NULL,
+    photo_3 character varying(100) NOT NULL,
+    photo_4 character varying(100) NOT NULL,
+    photo_5 character varying(100) NOT NULL,
+    photo_6 character varying(100) NOT NULL,
+    is_available boolean NOT NULL,
+    list_date date NOT NULL,
+    seller_id integer NOT NULL
+);
+
+
+ALTER TABLE public.listings_product OWNER TO postgres;
+
+--
+-- Name: listings_product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.listings_product_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.listings_product_id_seq OWNER TO postgres;
+
+--
+-- Name: listings_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.listings_product_id_seq OWNED BY public.listings_product.id;
+
+
+--
+-- Name: listings_review; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.listings_review (
+    id integer NOT NULL,
+    review_statement character varying(255) NOT NULL,
+    review_sentiment character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.listings_review OWNER TO postgres;
+
+--
+-- Name: listings_review_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.listings_review_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.listings_review_id_seq OWNER TO postgres;
+
+--
+-- Name: listings_review_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.listings_review_id_seq OWNED BY public.listings_review.id;
+
+
+--
+-- Name: listings_transaction; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.listings_transaction (
+    id integer NOT NULL,
+    products character varying(255) NOT NULL,
+    amount numeric(10,2) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.listings_transaction OWNER TO postgres;
+
+--
+-- Name: listings_transaction_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.listings_transaction_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.listings_transaction_id_seq OWNER TO postgres;
+
+--
+-- Name: listings_transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.listings_transaction_id_seq OWNED BY public.listings_transaction.id;
+
+
+--
+-- Name: realtors_realtor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.realtors_realtor (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    photo character varying(100) NOT NULL,
+    description text NOT NULL,
+    phone character varying(20) NOT NULL,
+    email character varying(50) NOT NULL,
+    is_mvp boolean NOT NULL,
+    hire_date date NOT NULL
+);
+
+
+ALTER TABLE public.realtors_realtor OWNER TO postgres;
+
+--
+-- Name: realtors_realtor_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.realtors_realtor_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.realtors_realtor_id_seq OWNER TO postgres;
+
+--
+-- Name: realtors_realtor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.realtors_realtor_id_seq OWNED BY public.realtors_realtor.id;
+
+
+--
+-- Name: realtors_seller; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.realtors_seller (
+    id integer NOT NULL,
+    name character varying(200) NOT NULL,
+    photo character varying(100) NOT NULL,
+    description text NOT NULL,
+    support_no character varying(20) NOT NULL,
+    support_mail character varying(50) NOT NULL,
+    is_top boolean NOT NULL,
+    contract_date date NOT NULL
+);
+
+
+ALTER TABLE public.realtors_seller OWNER TO postgres;
+
+--
+-- Name: realtors_seller_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.realtors_seller_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.realtors_seller_id_seq OWNER TO postgres;
+
+--
+-- Name: realtors_seller_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.realtors_seller_id_seq OWNED BY public.realtors_seller.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: listings_listing id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_listing ALTER COLUMN id SET DEFAULT nextval('public.listings_listing_id_seq'::regclass);
+
+
+--
+-- Name: listings_product id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_product ALTER COLUMN id SET DEFAULT nextval('public.listings_product_id_seq'::regclass);
+
+
+--
+-- Name: listings_review id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_review ALTER COLUMN id SET DEFAULT nextval('public.listings_review_id_seq'::regclass);
+
+
+--
+-- Name: listings_transaction id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_transaction ALTER COLUMN id SET DEFAULT nextval('public.listings_transaction_id_seq'::regclass);
+
+
+--
+-- Name: realtors_realtor id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtors_realtor ALTER COLUMN id SET DEFAULT nextval('public.realtors_realtor_id_seq'::regclass);
+
+
+--
+-- Name: realtors_seller id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtors_seller ALTER COLUMN id SET DEFAULT nextval('public.realtors_seller_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add product	7	add_product
+26	Can change product	7	change_product
+27	Can delete product	7	delete_product
+28	Can view product	7	view_product
+29	Can add listing	8	add_listing
+30	Can change listing	8	change_listing
+31	Can delete listing	8	delete_listing
+32	Can view listing	8	view_listing
+33	Can add realtor	9	add_realtor
+34	Can change realtor	9	change_realtor
+35	Can delete realtor	9	delete_realtor
+36	Can view realtor	9	view_realtor
+37	Can add seller	10	add_seller
+38	Can change seller	10	change_seller
+39	Can delete seller	10	delete_seller
+40	Can view seller	10	view_seller
+41	Can add transaction	11	add_transaction
+42	Can change transaction	11	change_transaction
+43	Can delete transaction	11	delete_transaction
+44	Can view transaction	11	view_transaction
+45	Can add review	12	add_review
+46	Can change review	12	change_review
+47	Can delete review	12	delete_review
+48	Can view review	12	view_review
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$150000$iUKlUVRstJQk$S3tPt/V7oWiIybzKEWViVFBqww7mJ95972SKHF5kLKw=	2019-04-09 21:48:03.222446+05:30	t	rajat			rajat@gmail.com	t	t	2019-04-09 21:47:55.898904+05:30
+3	pbkdf2_sha256$150000$4nr8AIWWV5Qe$6rN+rDjMugj7XgnDxNs4Xg5VhvPMJQ6WLdRxzyTpFVk=	2019-04-19 14:03:12.845182+05:30	f	Optimus	Rajeev	Bhardwaj	rajeevnith@gmail.com	f	t	2019-04-17 12:36:07.903297+05:30
+2	pbkdf2_sha256$150000$MEcATjllQbep$Tz79JeggIsHVLeqOXrWD1VT/cURbrVQl5mrOh5k2nRA=	2019-04-20 15:52:39.204798+05:30	t	prime			prime@gmail.com	t	t	2019-04-15 22:16:29+05:30
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2019-04-09 22:29:46.945598+05:30	1	Kyle Brown	1	[{"added": {}}]	10	1
+2	2019-04-09 22:30:41.074433+05:30	2	Jenny Johnson	1	[{"added": {}}]	10	1
+3	2019-04-09 22:31:35.562148+05:30	3	Mark Hudson	1	[{"added": {}}]	10	1
+4	2019-04-09 22:42:12.302431+05:30	1	OnePluse 6t	1	[{"added": {}}]	7	1
+5	2019-04-09 22:47:12.981525+05:30	2	Dell Alienware Area 51m	1	[{"added": {}}]	7	1
+6	2019-04-09 22:51:02.085401+05:30	3	Apple Macbook Air	1	[{"added": {}}]	7	1
+7	2019-04-09 22:52:54.769098+05:30	4	Apple Macbook Pro	1	[{"added": {}}]	7	1
+8	2019-04-09 22:53:24.865561+05:30	1	OnePluse 6t	2	[{"changed": {"fields": ["brand"]}}]	7	1
+9	2019-04-09 22:53:39.545198+05:30	2	Dell Alienware Area 51m	2	[{"changed": {"fields": ["weight"]}}]	7	1
+10	2019-04-09 22:54:04.582121+05:30	2	Dell Alienware Area 51m	2	[{"changed": {"fields": ["storage"]}}]	7	1
+11	2019-04-09 22:56:17.176551+05:30	5	Dell Alienware 15m	1	[{"added": {}}]	7	1
+12	2019-04-09 22:58:50.533112+05:30	6	Hp Spectral	1	[{"added": {}}]	7	1
+13	2019-04-09 23:01:52.117048+05:30	7	Hp Envy	1	[{"added": {}}]	7	1
+14	2019-04-10 19:56:57.203592+05:30	2	Jenny Johnson	2	[{"changed": {"fields": ["is_top"]}}]	10	1
+15	2019-04-11 00:58:15.362676+05:30	7	Transaction object (7)	3		11	1
+16	2019-04-11 00:58:15.366827+05:30	6	Transaction object (6)	3		11	1
+17	2019-04-11 00:58:15.36848+05:30	5	Transaction object (5)	3		11	1
+18	2019-04-11 00:58:15.36946+05:30	4	Transaction object (4)	3		11	1
+19	2019-04-11 00:58:15.370389+05:30	3	Transaction object (3)	3		11	1
+20	2019-04-11 00:58:15.37141+05:30	2	Transaction object (2)	3		11	1
+21	2019-04-11 00:58:15.372406+05:30	1	Transaction object (1)	3		11	1
+22	2019-04-11 16:23:35.526695+05:30	11	OnePluse 6t Cover	1	[{"added": {}}]	7	1
+23	2019-04-11 16:25:38.149131+05:30	12	Dell Alienware 15m Bag	1	[{"added": {}}]	7	1
+24	2019-04-12 00:09:09.498904+05:30	19	Transaction object (19)	3		11	1
+25	2019-04-12 00:09:15.235835+05:30	18	Transaction object (18)	3		11	1
+26	2019-04-12 00:09:20.599076+05:30	20	Transaction object (20)	3		11	1
+27	2019-04-17 12:28:56.785651+05:30	2	prime	2	[{"changed": {"fields": ["email"]}}]	4	2
+28	2019-04-18 01:24:43.754912+05:30	8	Transaction object (8)	3		11	2
+29	2019-04-18 01:24:50.287936+05:30	9	Transaction object (9)	3		11	2
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	listings	product
+8	listings	listing
+9	realtors	realtor
+10	realtors	seller
+11	listings	transaction
+12	listings	review
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2019-04-09 21:46:50.964012+05:30
+2	auth	0001_initial	2019-04-09 21:46:51.047786+05:30
+3	admin	0001_initial	2019-04-09 21:46:51.170459+05:30
+4	admin	0002_logentry_remove_auto_add	2019-04-09 21:46:51.208358+05:30
+5	admin	0003_logentry_add_action_flag_choices	2019-04-09 21:46:51.22232+05:30
+6	contenttypes	0002_remove_content_type_name	2019-04-09 21:46:51.258223+05:30
+7	auth	0002_alter_permission_name_max_length	2019-04-09 21:46:51.267201+05:30
+8	auth	0003_alter_user_email_max_length	2019-04-09 21:46:51.280167+05:30
+9	auth	0004_alter_user_username_opts	2019-04-09 21:46:51.293131+05:30
+10	auth	0005_alter_user_last_login_null	2019-04-09 21:46:51.306095+05:30
+11	auth	0006_require_contenttypes_0002	2019-04-09 21:46:51.309087+05:30
+12	auth	0007_alter_validators_add_error_messages	2019-04-09 21:46:51.323053+05:30
+13	auth	0008_alter_user_username_max_length	2019-04-09 21:46:51.344992+05:30
+14	auth	0009_alter_user_last_name_max_length	2019-04-09 21:46:51.360951+05:30
+15	auth	0010_alter_group_name_max_length	2019-04-09 21:46:51.373915+05:30
+16	auth	0011_update_proxy_permissions	2019-04-09 21:46:51.390873+05:30
+17	realtors	0001_initial	2019-04-09 21:46:51.442882+05:30
+18	listings	0001_initial	2019-04-09 21:46:51.530667+05:30
+19	sessions	0001_initial	2019-04-09 21:46:51.589255+05:30
+20	listings	0002_auto_20190409_2235	2019-04-09 22:35:18.80841+05:30
+21	listings	0003_auto_20190409_2240	2019-04-09 22:40:31.102445+05:30
+22	listings	0004_auto_20190409_2241	2019-04-09 22:41:43.995745+05:30
+23	listings	0005_auto_20190410_2108	2019-04-10 21:08:56.852701+05:30
+24	listings	0006_auto_20190411_1621	2019-04-11 16:21:57.185491+05:30
+25	listings	0007_auto_20190412_2158	2019-04-12 21:59:07.64457+05:30
+26	listings	0008_auto_20190419_0022	2019-04-19 00:22:51.350152+05:30
+27	listings	0009_auto_20190420_1550	2019-04-20 15:50:55.788573+05:30
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+zasxv4cy660w5hsqvlvjdp4tmqubh1vl	ZDYwOTUxYWQ5MzNjMmE2MjA5ZmE3Y2M3YTA2OTMxYWQ5MWRmMzc4Yjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI0ZDA4NTI3MmRhNzU1Zjc1NzVjMGU4Nzg5Y2JiMjliMjVkMTMxYjNiIn0=	2019-04-23 21:48:03.230486+05:30
+7wdcyat2c52x2qf346s44c6laqfdyv6r	ODM0YTIxOGUyNGUzYWI2MzBhMWI3Njk4OGMyNDA5Y2QzZDRmMGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZTMxM2I2NGVmNzY3ZTczZjY4M2Y1MjM3MTJkZmYzNDI4M2UzMzNkIn0=	2019-04-29 22:16:47.31578+05:30
+pvxew9in3qve95ho1waty63iuec04tob	ODM0YTIxOGUyNGUzYWI2MzBhMWI3Njk4OGMyNDA5Y2QzZDRmMGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZTMxM2I2NGVmNzY3ZTczZjY4M2Y1MjM3MTJkZmYzNDI4M2UzMzNkIn0=	2019-04-30 14:21:30.31805+05:30
+6i1auq62a4ydy6pyba7vb1redns1obtt	ODM0YTIxOGUyNGUzYWI2MzBhMWI3Njk4OGMyNDA5Y2QzZDRmMGY3Mzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZTMxM2I2NGVmNzY3ZTczZjY4M2Y1MjM3MTJkZmYzNDI4M2UzMzNkIn0=	2019-04-30 14:26:41.549454+05:30
+01o3ac2uorh6jliz39ow0364sf06jheu	NWY2OWUzZTM0Y2E3YWNiNWYxNTE0Nzc2MGFjNDJmZjc2ZDU0NzU4ZDp7Il9hdXRoX3VzZXJfaWQiOiIzIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkZTNiMzdlNDBiZTAwMGE2N2VhZjkzNGQyODAyNDYzMTkzNjU1ZDQ4In0=	2019-05-01 13:17:51.388172+05:30
+\.
+
+
+--
+-- Data for Name: listings_listing; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.listings_listing (id, title, address, city, state, zipcode, description, price, bedrooms, bathroom, garage, sqft, lot_size, photo_main, photo_1, photo_2, photo_3, photo_4, photo_5, photo_6, is_published, list_date, realtor_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: listings_product; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.listings_product (id, name, brand, type, sub_type, description, price, ram, processor, storage, processor_spped, display_size, weight, photo_main, photo_1, photo_2, photo_3, photo_4, photo_5, photo_6, is_available, list_date, seller_id) FROM stdin;
+3	Apple Macbook Air	Apple	Laptop	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	74990	8	core_i5	128.0	2.3	13.30	1350.0	photos/19/04/09/apple-airbook-1.jpg	photos/19/04/09/apple-airbook-2.jpg	photos/19/04/09/apple-airbook-3.jpg	photos/19/04/09/apple-airbook-4.jpg				t	2019-01-15	3
+4	Apple Macbook Pro	Apple	Laptop	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	189000	16	Core-i7	256.0	3.0	15.60	2100.0	photos/19/04/09/apple-pro-1.jpg	photos/19/04/09/apple-pro-2.jpg	photos/19/04/09/apple-pro-3.jpg	photos/19/04/09/apple-pro-4.jpg				t	2019-02-09	2
+1	OnePluse 6t	Onepluse	Mobile	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	39999	8	Qualcomm Snapdragon 845	128.0	2.2	6.41	185.0	photos/19/04/09/onepluse6t-1.jpg	photos/19/04/09/onepluse6t-2.jpg	photos/19/04/09/onepluse6t-3.jpg					t	2019-04-02	1
+2	Dell Alienware Area 51m	Dell	Laptop	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	177000	64	Core-i9	2048.0	4.0	15.60	4000.0	photos/19/04/09/area51m-1.jpg	photos/19/04/09/area51m-2.jpg	photos/19/04/09/area51m-3.jpg	photos/19/04/09/area51m-4.jpg	photos/19/04/09/area51m-5.jpg			t	2019-03-13	1
+5	Dell Alienware 15m	Dell	Laptop	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	132000	32	Core-i7	1536.0	4.0	15.60	3700.0	photos/19/04/09/alienware15.jpg	photos/19/04/09/alienware15-1.jpg	photos/19/04/09/alienware15-2.jpg	photos/19/04/09/alienware15-3.jpg				t	2019-03-05	3
+6	Hp Spectral	Hp	Laptop	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	164990	16	Core-i7	512.0	3.6	15.60	2700.0	photos/19/04/09/hp-spectre-1.jpg	photos/19/04/09/hp-spectre-2.jpg	photos/19/04/09/hp-spectre-3.jpg	photos/19/04/09/hp-spectre-4.jpg				t	2019-02-12	1
+7	Hp Envy	Hp	Laptop	Electronic_product	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	82155	8	Ryzen 5 2500U	256.0	2.7	13.30	2400.0	photos/19/04/09/hp-envy-1.jpg	photos/19/04/09/hp-envy-2.jpg	photos/19/04/09/hp-envy-3.jpg	photos/19/04/09/hp-envy-4.jpg				t	2019-01-17	1
+11	OnePluse 6t Cover	Onepluse	Mobile	accessories	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	550	0	0	0.0	0.0	6.41	50.0	photos/19/04/11/onepluse6t-cover-1_E0zXUyW.jpg							t	2019-02-04	3
+12	Dell Alienware 15m Bag	Dell	Laptop	accessories	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	2500	0	0	0.0	0.0	15.60	150.0	photos/19/04/11/alienware15-bag-1.jpg	photos/19/04/11/alienware15-bag-2.jpg						t	2018-12-18	2
+\.
+
+
+--
+-- Data for Name: listings_review; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.listings_review (id, review_statement, review_sentiment, created_at, updated_at, user_id) FROM stdin;
+1	it's good enough for the kids.	Good	2019-04-19 00:23:44.036596+05:30	2019-04-19 00:23:44.036596+05:30	2
+2	it's good enough for the kids.	Good	2019-04-19 14:06:23.109636+05:30	2019-04-19 14:06:23.109636+05:30	2
+3	Not is very for like good maybe for old people.	Good	2019-04-20 15:27:02.810872+05:30	2019-04-20 15:27:02.810872+05:30	2
+4	asdasdasdad	Disappointing	2019-04-20 15:52:18.142978+05:30	2019-04-20 15:52:18.142978+05:30	2
+5	a	Disappointing	2019-04-20 15:52:23.233088+05:30	2019-04-20 15:52:23.233088+05:30	2
+\.
+
+
+--
+-- Data for Name: listings_transaction; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.listings_transaction (id, products, amount, created_at, updated_at, user_id) FROM stdin;
+10	1,11	40549.00	2019-04-11 16:26:28.059349+05:30	2019-04-11 16:26:28.059349+05:30	1
+11	5,12	134500.00	2019-04-11 16:27:25.266023+05:30	2019-04-11 16:27:25.266023+05:30	1
+12	2,12	179500.00	2019-04-11 16:27:46.19201+05:30	2019-04-11 16:27:46.19201+05:30	1
+13	5,12	134500.00	2019-04-11 16:27:50.41793+05:30	2019-04-11 16:27:50.41793+05:30	1
+14	1,11	40549.00	2019-04-11 16:27:55.338919+05:30	2019-04-11 16:27:55.338919+05:30	1
+15	2,12	179500.00	2019-04-11 16:28:01.456606+05:30	2019-04-11 16:28:01.456606+05:30	1
+16	1,11	40549.00	2019-04-11 16:28:06.809293+05:30	2019-04-11 16:28:06.809293+05:30	1
+17	2,12	179500.00	2019-04-11 16:59:25.121354+05:30	2019-04-11 16:59:25.121354+05:30	1
+21	1	39999.00	2019-04-12 00:08:18.280937+05:30	2019-04-12 00:08:18.280937+05:30	1
+22	1	39999.00	2019-04-12 22:00:10.136566+05:30	2019-04-12 22:00:10.136566+05:30	1
+23	1,11	40549.00	2019-04-12 22:23:29.25158+05:30	2019-04-12 22:23:29.25158+05:30	1
+24	1,11	40549.00	2019-04-17 12:54:34.96907+05:30	2019-04-17 12:54:34.96907+05:30	3
+25	2	177000.00	2019-04-17 12:56:33.129256+05:30	2019-04-17 12:56:33.129256+05:30	3
+26	2,12	179500.00	2019-04-17 12:56:39.503495+05:30	2019-04-17 12:56:39.503495+05:30	3
+27	2,12	179500.00	2019-04-19 14:03:26.511757+05:30	2019-04-19 14:03:26.511757+05:30	3
+28	1,11	40549.00	2019-04-20 15:26:27.375964+05:30	2019-04-20 15:26:27.375964+05:30	2
+29	2	177000.00	2019-04-20 15:52:07.502657+05:30	2019-04-20 15:52:07.502657+05:30	2
+30	2,12	179500.00	2019-04-20 15:52:12.52557+05:30	2019-04-20 15:52:12.52557+05:30	2
+\.
+
+
+--
+-- Data for Name: realtors_realtor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.realtors_realtor (id, name, photo, description, phone, email, is_mvp, hire_date) FROM stdin;
+\.
+
+
+--
+-- Data for Name: realtors_seller; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.realtors_seller (id, name, photo, description, support_no, support_mail, is_top, contract_date) FROM stdin;
+1	Kyle Brown	photos/2019/04/09/kyle.jpg	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	9857539200	kyleb@gmail.com	f	2019-04-09
+3	Mark Hudson	photos/2019/04/09/mark.jpg	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	7789182919	markh@gmail.com	f	2019-01-03
+2	Jenny Johnson	photos/2019/04/09/jenny.jpg	There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.	8872448291	jjohnson@gmail.com	t	2018-12-11
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 48, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 3, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 29, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 12, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 27, true);
+
+
+--
+-- Name: listings_listing_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.listings_listing_id_seq', 1, false);
+
+
+--
+-- Name: listings_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.listings_product_id_seq', 12, true);
+
+
+--
+-- Name: listings_review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.listings_review_id_seq', 5, true);
+
+
+--
+-- Name: listings_transaction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.listings_transaction_id_seq', 30, true);
+
+
+--
+-- Name: realtors_realtor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.realtors_realtor_id_seq', 1, false);
+
+
+--
+-- Name: realtors_seller_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.realtors_seller_id_seq', 3, true);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: listings_listing listings_listing_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_listing
+    ADD CONSTRAINT listings_listing_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listings_product listings_product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_product
+    ADD CONSTRAINT listings_product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listings_review listings_review_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_review
+    ADD CONSTRAINT listings_review_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listings_transaction listings_transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_transaction
+    ADD CONSTRAINT listings_transaction_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: realtors_realtor realtors_realtor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtors_realtor
+    ADD CONSTRAINT realtors_realtor_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: realtors_seller realtors_seller_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.realtors_seller
+    ADD CONSTRAINT realtors_seller_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: listings_listing_realtor_id_90583529; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX listings_listing_realtor_id_90583529 ON public.listings_listing USING btree (realtor_id);
+
+
+--
+-- Name: listings_product_seller_id_188e303e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX listings_product_seller_id_188e303e ON public.listings_product USING btree (seller_id);
+
+
+--
+-- Name: listings_review_user_id_8ccfe840; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX listings_review_user_id_8ccfe840 ON public.listings_review USING btree (user_id);
+
+
+--
+-- Name: listings_transaction_user_id_f533d5db; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX listings_transaction_user_id_f533d5db ON public.listings_transaction USING btree (user_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: listings_listing listings_listing_realtor_id_90583529_fk_realtors_realtor_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_listing
+    ADD CONSTRAINT listings_listing_realtor_id_90583529_fk_realtors_realtor_id FOREIGN KEY (realtor_id) REFERENCES public.realtors_realtor(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: listings_product listings_product_seller_id_188e303e_fk_realtors_seller_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_product
+    ADD CONSTRAINT listings_product_seller_id_188e303e_fk_realtors_seller_id FOREIGN KEY (seller_id) REFERENCES public.realtors_seller(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: listings_review listings_review_user_id_8ccfe840_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_review
+    ADD CONSTRAINT listings_review_user_id_8ccfe840_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: listings_transaction listings_transaction_user_id_f533d5db_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.listings_transaction
+    ADD CONSTRAINT listings_transaction_user_id_f533d5db_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'p8=bzwng)a#oc9y1clolqr2^ps!7z+lv5tdfr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ekart-electronics.herokuapp.com']
+ALLOWED_HOSTS = ['ekart-electronics.herokuapp.com','127.0.0.1']
 
 
 # Application definition
