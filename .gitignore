@@ -2,7 +2,7 @@
 *.pot
 *.pyc
 __pycache__/
+static/*
+.idea/*
 db.sqlite3
-media
 venv
-.idea/workspace.xml
