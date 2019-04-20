@@ -188,13 +188,17 @@ function get_suggested_products(product_id) {
             </div>
           </div>
           <p>Review:</p>
-          <div class="row mb-3">
-            <div class="col-md-8">
-              <input type="text" name="review" class="form-control">
+          <form action="{% url 'review_system' %}" method="POST">
+            {% csrf_token %}
+            <div class="row mb-3">
+              <div class="col-md-8">
+                <input type="text" name="review" class="form-control">
+              </div>
+              <br><div class="col-md-4"><input type="submit" class="btn btn-block btn-secondary"></div>
             </div>
-            <br><div class="col-md-4"><input type="submit" class="btn btn-block btn-secondary"></div>
-          </div>
+          </form>
         </div>
+
         <div class="col-md-1"></div>
 
         <div class="col-md-3">
@@ -205,7 +209,11 @@ function get_suggested_products(product_id) {
               <h6 class="text-secondary">{{ listing.seller }}</h6>
             </div>
           </div>
-          <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">BUY PRODUCT!</button>
+          {% if user.id == None %}
+              <button class="btn-primary btn-block btn-lg" onclick="checkLogin()">BUY PRODUCT!</button>
+          {% else %}
+              <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">BUY PRODUCT!</button>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -216,30 +224,42 @@ function get_suggested_products(product_id) {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          {% if  suggested_product != None %}
           <h6 class="modal-title" id="inquiryModalLabel">These Products Are rapidly bought together!</h6>
+          {% else %}
+          <h6 class="modal-title" id="inquiryModalLabel">Please confirm the purchase!</h6>
+          {% endif %}
           <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
         </div>
         <div class="modal-body">
+          {% if  suggested_product != None %}
           <div class="row">
-            <div class="col-md-4">
-              <b>{{ suggested_product.name }}</b>
-            </div>
-            <div  class="col-md-3">
-              <b>Price:{{ suggested_product.price }}</b>
+            <div class="col-md-7">
+              <b><a href="{% url 'listing' suggested_product.id %}" target="_blank" >{{ suggested_product.name }}</a></b>
+              <br/><b>Price: ₹{{ suggested_product.price }}</b>
             </div>
             <div class="col-md-5">
               <img src="{{ suggested_product.photo_main.url }}" alt="smx" >
             </div>
           </div>
             <hr>
-            <input type="button" value="Buy Both at {{ listing.price|add:suggested_product.price }}" class="btn btn-block btn-secondary" onclick="buy(true)">
+            <input type="button" value="Buy Both at ₹{{ listing.price|add:suggested_product.price }}" class="btn btn-block btn-secondary" onclick="buy(true)">
           <hr>
-            <input type="button" value="Buy at {{ listing.price }}" class="btn btn-block btn-secondary" onclick="buy()">
+          {% endif %}
+            <input type="button" value="Buy at ₹{{ listing.price }}" class="btn btn-block btn-secondary" onclick="buy()">
         </div>
       </div>
     </div>
   </div>
 
+<script>
+  function checkLogin() {
+      var ask = window.confirm("user is not logged in ");
+      if(ask){
+        window.location.href = "{% url 'login' %}";
+        }
+  }
+</script>
 {% endblock %}

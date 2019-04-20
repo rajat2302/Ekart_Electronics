@@ -83,3 +83,9 @@ class Transaction(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    review_statement = models.CharField(max_length=255)
+    review_sentiment = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True,blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
