@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ('SECRET_KEY', 'p8=bzwng)a#oc9y1clolqr2^ps!7z+lv5tdfrk-#0$ebn7k2^2')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'p8=bzwng)a#oc9y1clolqr2^ps!7z+lv5tdfrk-#0$ebn7k2^2')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,11 +87,11 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ('DATABASE_NAME', 'ekartdb'),
-        'USER': os.environ('DATABASE_USER', 'postgres'),
-        'PASSWORD': os.environ('DATABASE_PASSWORD', 'Prime@2302'),
-        'HOST': os.environ('DATABASE_HOST', 'localhost'),
-        'PORT': os.environ('DATABASE_PORT', '5433'),
+        'NAME': os.environ.get('DATABASE_NAME', 'ekartdb'),
+        'USER': os.environ.get('DATABASE_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'Prime@2302'),
+        'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
+        'PORT': os.environ.get('DATABASE_PORT', '5433'),
     }
 }
 
